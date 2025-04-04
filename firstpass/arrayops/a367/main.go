@@ -37,6 +37,7 @@ func main() {
 	}
 }
 
+// O(Logn)
 func isPerfectSquare(num int) bool {
 	left, right := 0, num
 

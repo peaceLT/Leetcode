@@ -40,6 +40,7 @@ func main() {
 	fmt.Println(res)
 }
 
+// O(Logn)
 func searchRange_Mine(nums []int, target int) []int {
 	left := 0
 	right := len(nums) - 1
@@ -137,6 +138,7 @@ func getRight(nums []int, target int) int {
 // 官方题解
 func searchRange(nums []int, target int) []int {
 	leftmost := sort.SearchInts(nums, target)
+	// 没找到
 	if leftmost == len(nums) || nums[leftmost] != target {
 		return []int{-1, -1}
 	}

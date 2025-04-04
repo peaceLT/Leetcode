@@ -51,6 +51,7 @@ func mySqrt_official(x int) int {
 	return ans
 }
 
+// O(Logn)
 func mySqrt(x int) int {
 	left, right := 0, x
 
