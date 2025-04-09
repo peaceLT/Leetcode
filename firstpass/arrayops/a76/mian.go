@@ -1,5 +1,7 @@
 package a76
 
+import "fmt"
+
 //76. 最小覆盖子串
 //给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
 //
@@ -30,3 +32,17 @@ package a76
 //n == t.length
 //1 <= m, n <= 105
 //s 和 t 由英文字母组成
+
+func main() {
+	var s, t string
+	for {
+		if _, err := fmt.Scan(&s, &t); err != nil {
+			break
+		}
+
+	}
+}
+
+func minWindow(s string, t string) string {
+
+}
