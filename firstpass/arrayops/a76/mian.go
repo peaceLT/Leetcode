@@ -1,6 +1,9 @@
-package a76
+package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 //76. 最小覆盖子串
 //给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
@@ -39,10 +42,89 @@ func main() {
 		if _, err := fmt.Scan(&s, &t); err != nil {
 			break
 		}
-
+		fmt.Println(minWindow(s, t))
 	}
 }
 
-func minWindow(s string, t string) string {
+func minWindow_mine(s string, t string) string {
+	if len(s) < len(t) {
+		return ""
+	}
 
+	distance := 0
+	subStr := make([]uint8, 0, len(t))
+	minstr := ""
+	left, right := 0, 0
+	tCount, sCount := map[int32]int{}, map[int32]int{}
+	for _, v := range t {
+		tCount[v]++
+	}
+
+	for left < len(s) && right < len(s) {
+		subStr = append(subStr, s[right])
+		if sCount[int32(s[right])] < tCount[int32(s[right])] {
+			distance++
+		}
+		if _, ok := tCount[int32(s[right])]; ok {
+			sCount[int32(s[right])]++
+		}
+
+		// 找到
+		for distance == len(t) {
+			if len(minstr) > len(subStr) || len(minstr) == 0 {
+				minstr = string(subStr)
+			}
+
+			if _, ok := tCount[int32(s[left])]; ok && sCount[int32(s[left])] == tCount[int32(s[left])] {
+				distance--
+				sCount[int32(s[left])]--
+			} else if sCount[int32(s[left])] > tCount[int32(s[left])] {
+				sCount[int32(s[left])]--
+			}
+			left++
+			subStr = subStr[1:]
+		}
+		right++
+	}
+
+	return minstr
+}
+
+func minWindow(s string, t string) string {
+	ori, cnt := map[byte]int{}, map[byte]int{}
+	for i := 0; i < len(t); i++ {
+		ori[t[i]]++
+	}
+
+	sLen := len(s)
+	len := math.MaxInt32
+	ansL, ansR := -1, -1
+
+	check := func() bool {
+		for k, v := range ori {
+			if cnt[k] < v {
+				return false
+			}
+		}
+		return true
+	}
+	for l, r := 0, 0; r < sLen; r++ {
+		if r < sLen && ori[s[r]] > 0 {
+			cnt[s[r]]++
+		}
+		for check() && l <= r {
+			if r-l+1 < len {
+				len = r - l + 1
+				ansL, ansR = l, l+len
+			}
+			if _, ok := ori[s[l]]; ok {
+				cnt[s[l]] -= 1
+			}
+			l++
+		}
+	}
+	if ansL == -1 {
+		return ""
+	}
+	return s[ansL:ansR]
 }
