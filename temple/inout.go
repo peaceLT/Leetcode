@@ -4,6 +4,7 @@ import (
 	"bufio"
 	. "fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -123,5 +124,29 @@ func test() {
 		if _, err := Scan(&m, &k); err != nil || (m == 0 && k == 0) {
 			break
 		}
+	}
+
+	// 11. 带缓冲输入方法
+	scanner := bufio.NewScanner(os.Stdin)
+	// 读取数组大小
+	scanner.Scan()
+	size, _ := strconv.Atoi(scanner.Text())
+
+	// 读取数组元素
+	numberArray := make([]int, size)
+	for i := 0; i < size; i++ {
+		scanner.Scan()
+		numberArray[i], _ = strconv.Atoi(scanner.Text())
+	}
+
+	// 计算区间和
+	for scanner.Scan() {
+		line := scanner.Text()
+		fields := []int{0, 0}
+		_, err := Sscanf(line, "%d %d", &fields[0], &fields[1])
+		if err != nil {
+			continue
+		}
+		// 处理区间和逻辑
 	}
 }
